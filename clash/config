@@ -97,11 +97,11 @@ NodeParam: &NodeParam {type: http, interval: 3600, health-check: {enable: true, 
 # 锚点 - 节点订阅
 proxy-providers: 
   机场名称1:
-    url: '机场1的订阅URL'
+    url: 'https://bb.filmtoday.top/film/3300554ab7376edbf0fda1caa5c9b5ee'
     <<: *NodeParam
     path: './proxy_providers/机场名称1.yaml'
     override:
-      additional-prefix: "[机场名称1] " # 为订阅节点添加机场名称前缀
+      additional-prefix: "[film] " # 为订阅节点添加机场名称前缀
   机场名称2:
     url: '机场2的订阅URL'
     <<: *NodeParam
