@@ -103,7 +103,7 @@ proxy-providers:
     override:
       additional-prefix: "[film] " # 为订阅节点添加机场名称前缀
   机场名称2:
-    url: 'https://wd-turbo.com/subscribe/nxgrjz-bnhpr1n4-rsWpzRFRc7AS'
+    url: 'https:'
     <<: *NodeParam
     path: './proxy_providers/机场名称2.yaml'
     override:
