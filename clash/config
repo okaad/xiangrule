@@ -103,11 +103,11 @@ proxy-providers:
     override:
       additional-prefix: "[film] " # 为订阅节点添加机场名称前缀
   机场名称2:
-    url: 'https:'
+    url: 'https://liangxin.xyz/api/v1/liangxin?OwO=d405a1969b8005418ecdb9c756650fe3'
     <<: *NodeParam
     path: './proxy_providers/机场名称2.yaml'
     override:
-      additional-prefix: "[西部数据] " # 为订阅节点添加机场名称前缀
+      additional-prefix: "[良心云] " # 为订阅节点添加机场名称前缀
 
 # 锚点 - 节点筛选组
 FilterHK: &FilterHK '^(?=.*((?i)🇭🇰|香港|(\b(HK|HKG|Hong)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$'
