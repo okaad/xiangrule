@@ -103,7 +103,7 @@ proxy-providers:
     override:
       additional-prefix: "[film] " # 为订阅节点添加机场名称前缀
   机场名称2:
-    url: 'https://liangxin.xyz/api/v1/liangxin?OwO=d405a1969b8005418ecdb9c756650fe3'
+    url: 'h    '
     <<: *NodeParam
     path: './proxy_providers/机场名称2.yaml'
     override:
