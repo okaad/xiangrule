@@ -97,17 +97,17 @@ NodeParam: &NodeParam {type: http, interval: 3600, health-check: {enable: true, 
 # 锚点 - 节点订阅
 proxy-providers: 
   机场名称1:
-    url: 'https://bb.filmtoday.top/film/3300554ab7376edbf0fda1caa5c9b5ee'
+    url: 'https://config.moe/config/db151efd7f7cdeedd6078e4e0e0085e2'
     <<: *NodeParam
     path: './proxy_providers/机场名称1.yaml'
     override:
-      additional-prefix: "[film] " # 为订阅节点添加机场名称前缀
+      additional-prefix: "[ykk] " # 为订阅节点添加机场名称前缀
   机场名称2:
     url: 'h    '
     <<: *NodeParam
     path: './proxy_providers/机场名称2.yaml'
     override:
-      additional-prefix: "[良心云] " # 为订阅节点添加机场名称前缀
+      additional-prefix: "[] " # 为订阅节点添加机场名称前缀
 
 # 锚点 - 节点筛选组
 FilterHK: &FilterHK '^(?=.*((?i)🇭🇰|香港|(\b(HK|HKG|Hong)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$'
