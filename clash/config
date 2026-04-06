@@ -97,7 +97,7 @@ NodeParam: &NodeParam {type: http, interval: 3600, health-check: {enable: true, 
 # 锚点 - 节点订阅
 proxy-providers: 
   机场名称1:
-    url: 'https://config.moe/config/db151efd7f7cdeedd6078e4e0e0085e2'
+    url: 'https://popcornlab.de/api/v1/miaomiao?OuO=1725b267fbfba0a96dbecdc8650cde5e'
     <<: *NodeParam
     path: './proxy_providers/机场名称1.yaml'
     override:
