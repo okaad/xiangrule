@@ -1,3 +1,17 @@
+mixed-port: 7890
+allow-lan: true
+mode: rule
+log-level: info
+ipv6: true
+unified-delay: true
+tcp-concurrent: true
+find-process-mode: strict
+global-client-fingerprint: chrome
+
+profile:
+  store-selected: true
+  store-fake-ip: true
+
 proxies:
   - name: 瓦工美国拼车1
     type: vless
@@ -8,94 +22,416 @@ proxies:
     udp: true
     tls: true
     servername: icloud.com
+    flow: xtls-rprx-vision
+    client-fingerprint: chrome
     reality-opts:
       public-key: lZeek5W6aE61NOF0OU5P3Imr8l9GPRWsQX0QNZtNACo
       short-id: f5
-    client-fingerprint: chrome
-    flow: xtls-rprx-vision
 
 proxy-groups:
-  - name: 🚀 节点选择
+  - name: 节点选择
     type: select
     proxies:
       - 瓦工美国拼车1
+      - DIRECT
 
-  - name: 🌍 国外流量
+  - name: Proxies
     type: select
     proxies:
-      - 🚀 节点选择
+      - 节点选择
+      - 瓦工美国拼车1
+      - DIRECT
 
-  - name: 🐟 漏网之鱼
+  - name: Ai
     type: select
     proxies:
-      - 🚀 节点选择
+      - 节点选择
+      - DIRECT
+
+  - name: GitHub
+    type: select
+    proxies:
+      - 节点选择
+      - DIRECT
+
+  - name: YouTube
+    type: select
+    proxies:
+      - 节点选择
+      - DIRECT
+
+  - name: Google
+    type: select
+    proxies:
+      - 节点选择
+      - DIRECT
+
+  - name: OneDrive
+    type: select
+    proxies:
+      - 节点选择
+      - DIRECT
+
+  - name: Microsoft
+    type: select
+    proxies:
+      - 节点选择
+      - DIRECT
+
+  - name: Apple
+    type: select
+    proxies:
+      - DIRECT
+      - 节点选择
+
+  - name: TikTok
+    type: select
+    proxies:
+      - 节点选择
+      - DIRECT
+
+  - name: Telegram
+    type: select
+    proxies:
+      - 节点选择
+      - DIRECT
+
+  - name: Netflix
+    type: select
+    proxies:
+      - 节点选择
+      - DIRECT
+
+  - name: Bahamut
+    type: select
+    proxies:
+      - 节点选择
+      - DIRECT
+
+  - name: Disney
+    type: select
+    proxies:
+      - 节点选择
+      - DIRECT
+
+  - name: Hbomax
+    type: select
+    proxies:
+      - 节点选择
+      - DIRECT
+
+  - name: Bilibili
+    type: select
+    proxies:
+      - DIRECT
+      - 节点选择
+
+  - name: Spotify
+    type: select
+    proxies:
+      - 节点选择
+      - DIRECT
+
+  - name: Steam
+    type: select
+    proxies:
+      - 节点选择
+      - DIRECT
+
+  - name: PayPal
+    type: select
+    proxies:
+      - 节点选择
+      - DIRECT
+
+  - name: Final
+    type: select
+    proxies:
+      - 节点选择
+      - DIRECT
+
+  - name: 国外流量
+    type: select
+    proxies:
+      - 节点选择
+      - DIRECT
+
+  - name: 漏网之鱼
+    type: select
+    proxies:
+      - Final
+      - 节点选择
+      - DIRECT
+
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  ipv6: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - rule-set:fakeip-filter_domain
+    - "*.lan"
+    - "localhost.ptlogin2.qq.com"
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  proxy-server-nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+
 rules:
-    - 'AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((RULE-SET,cn_domain))),REJECT'
-    - 'AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((RULE-SET,cn_ip))),REJECT'
-    - 'RULE-SET,private_ip,DIRECT,no-resolve'
-    - 'RULE-SET,private_domain,DIRECT'
-    - 'RULE-SET,proxylite,Proxies'
-    - 'DOMAIN-SUFFIX,inets.io,Proxies'
-    - 'RULE-SET,ai,Ai'
-    - 'RULE-SET,github_domain,GitHub'
-    - 'RULE-SET,youtube_domain,YouTube'
-    - 'RULE-SET,google_domain,Google'
-    - 'RULE-SET,google-cn_domain,Google'
-    - 'RULE-SET,onedrive_domain,OneDrive'
-    - 'RULE-SET,microsoft_domain,Microsoft'
-    - 'RULE-SET,apple_domain,Apple'
-    - 'RULE-SET,tiktok_domain,TikTok'
-    - 'RULE-SET,telegram_domain,Telegram'
-    - 'RULE-SET,netflix_domain,Netflix'
-    - 'RULE-SET,bahamut_domain,Bahamut'
-    - 'RULE-SET,disney_domain,Disney'
-    - 'RULE-SET,hbomax_domain,Hbomax'
-    - 'RULE-SET,bilibili_domain,Bilibili'
-    - 'RULE-SET,spotify_domain,Spotify'
-    - 'RULE-SET,steam_domain,Steam'
-    - 'RULE-SET,paypal_domain,PayPal'
-    - 'RULE-SET,apple_ip,Apple,no-resolve'
-    - 'RULE-SET,google_ip,Google,no-resolve'
-    - 'RULE-SET,netflix_ip,Netflix,no-resolve'
-    - 'RULE-SET,bilibili_ip,Bilibili,no-resolve'
-    - 'RULE-SET,telegram_ip,Telegram,no-resolve'
-    - 'RULE-SET,geolocation-!cn,Proxies'
-    - 'RULE-SET,cn_domain,DIRECT'
-    - 'RULE-SET,cn_ip,DIRECT,no-resolve'
-    - 'MATCH,Final'
-rule-anchor:
-    ip: { type: http, interval: 86400, behavior: ipcidr, format: mrs }
-    domain: { type: http, interval: 86400, behavior: domain, format: mrs }
-    class: { type: http, interval: 86400, behavior: classical, format: text }
+  - 'AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((RULE-SET,cn_domain))),REJECT'
+  - 'AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((RULE-SET,cn_ip))),REJECT'
+  - 'RULE-SET,private_ip,DIRECT,no-resolve'
+  - 'RULE-SET,private_domain,DIRECT'
+  - 'RULE-SET,proxylite,Proxies'
+  - 'DOMAIN-SUFFIX,inets.io,Proxies'
+  - 'RULE-SET,ai,Ai'
+  - 'RULE-SET,github_domain,GitHub'
+  - 'RULE-SET,youtube_domain,YouTube'
+  - 'RULE-SET,google_domain,Google'
+  - 'RULE-SET,google-cn_domain,Google'
+  - 'RULE-SET,onedrive_domain,OneDrive'
+  - 'RULE-SET,microsoft_domain,Microsoft'
+  - 'RULE-SET,apple_domain,Apple'
+  - 'RULE-SET,tiktok_domain,TikTok'
+  - 'RULE-SET,telegram_domain,Telegram'
+  - 'RULE-SET,netflix_domain,Netflix'
+  - 'RULE-SET,bahamut_domain,Bahamut'
+  - 'RULE-SET,disney_domain,Disney'
+  - 'RULE-SET,hbomax_domain,Hbomax'
+  - 'RULE-SET,bilibili_domain,Bilibili'
+  - 'RULE-SET,spotify_domain,Spotify'
+  - 'RULE-SET,steam_domain,Steam'
+  - 'RULE-SET,paypal_domain,PayPal'
+  - 'RULE-SET,apple_ip,Apple,no-resolve'
+  - 'RULE-SET,google_ip,Google,no-resolve'
+  - 'RULE-SET,netflix_ip,Netflix,no-resolve'
+  - 'RULE-SET,bilibili_ip,Bilibili,no-resolve'
+  - 'RULE-SET,telegram_ip,Telegram,no-resolve'
+  - 'RULE-SET,geolocation-!cn,Proxies'
+  - 'RULE-SET,cn_domain,DIRECT'
+  - 'RULE-SET,cn_ip,DIRECT,no-resolve'
+  - 'MATCH,Final'
+
 rule-providers:
-    fakeip-filter_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-ruleset/fakeip-filter.mrs' }
-    private_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs' }
-    proxylite: { type: http, interval: 86400, behavior: classical, format: text, url: 'https://raw.githubusercontent.com/qichiyuhub/rule/refs/heads/main/proxy.list' }
-    ai: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs' }
-    youtube_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs' }
-    google_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs' }
-    google-cn_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-cn.mrs' }
-    github_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs' }
-    telegram_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs' }
-    netflix_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs' }
-    bahamut_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bahamut.mrs' }
-    disney_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/disney.mrs' }
-    hbomax_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/hbo.mrs' }
-    bilibili_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili.mrs' }
-    spotify_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs' }
-    steam_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.mrs' }
-    paypal_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.mrs' }
-    onedrive_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.mrs' }
-    microsoft_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs' }
-    apple_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.mrs' }
-    speedtest_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs' }
-    tiktok_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs' }
-    geolocation-!cn: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs' }
-    cn_domain: { type: http, interval: 86400, behavior: domain, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs' }
-    private_ip: { type: http, interval: 86400, behavior: ipcidr, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs' }
-    cn_ip: { type: http, interval: 86400, behavior: ipcidr, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs' }
-    google_ip: { type: http, interval: 86400, behavior: ipcidr, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs' }
-    telegram_ip: { type: http, interval: 86400, behavior: ipcidr, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs' }
-    bilibili_ip: { type: http, interval: 86400, behavior: ipcidr, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/bilibili.mrs' }
-    netflix_ip: { type: http, interval: 86400, behavior: ipcidr, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs' }
-    apple_ip: { type: http, interval: 86400, behavior: ipcidr, format: mrs, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.mrs' }
+  fakeip-filter_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-ruleset/fakeip-filter.mrs
+
+  private_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs
+
+  proxylite:
+    type: http
+    interval: 86400
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/qichiyuhub/rule/refs/heads/main/proxy.list
+
+  ai:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs
+
+  youtube_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs
+
+  google_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs
+
+  google-cn_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-cn.mrs
+
+  github_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs
+
+  telegram_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs
+
+  netflix_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs
+
+  bahamut_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bahamut.mrs
+
+  disney_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/disney.mrs
+
+  hbomax_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/hbo.mrs
+
+  bilibili_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili.mrs
+
+  spotify_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs
+
+  steam_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.mrs
+
+  paypal_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.mrs
+
+  onedrive_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.mrs
+
+  microsoft_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs
+
+  apple_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.mrs
+
+  speedtest_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs
+
+  tiktok_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs
+
+  geolocation-!cn:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs
+
+  cn_domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs
+
+  private_ip:
+    type: http
+    interval: 86400
+    behavior: ipcidr
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs
+
+  cn_ip:
+    type: http
+    interval: 86400
+    behavior: ipcidr
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs
+
+  google_ip:
+    type: http
+    interval: 86400
+    behavior: ipcidr
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs
+
+  telegram_ip:
+    type: http
+    interval: 86400
+    behavior: ipcidr
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs
+
+  bilibili_ip:
+    type: http
+    interval: 86400
+    behavior: ipcidr
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/bilibili.mrs
+
+  netflix_ip:
+    type: http
+    interval: 86400
+    behavior: ipcidr
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs
+
+  apple_ip:
+    type: http
+    interval: 86400
+    behavior: ipcidr
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.mrs
