@@ -4,11 +4,7 @@
 #cf反代
 DOMAIN-KEYWORD,738853.xyz
 #micu
-DOMAIN,tv.micu.hk
-DOMAIN,tv1.micu.hk
-DOMAIN,v1.micu.hk
-DOMAIN,v2.micu.hk
-DOMAIN,v0.micu.hk
+DOMAIN-SUFFIX,micu.hk
 #阿尔法
 IP-CIDR,43.248.142.114/32
 DOMAIN-KEYWORD,aaa.204cloud.com
