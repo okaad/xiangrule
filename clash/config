@@ -39,13 +39,14 @@ proxy-groups:
   - name: Proxies
     type: select
     proxies:
+      - dmit美国
       - 节点选择
-      - 瓦工美国拼车1
       - DIRECT
 
   - name: Ai
     type: select
     proxies:
+      - dmit美国
       - 节点选择
       - DIRECT
 
