@@ -33,7 +33,7 @@ proxy-groups:
   - name: 节点选择
     type: select
     proxies:
-      - 瓦工美国拼车1
+      - dmit美国
       - DIRECT
 
   - name: Proxies
