@@ -13,20 +13,21 @@ profile:
   store-fake-ip: true
 
 proxies:
-  - name: 瓦工美国拼车1
+  - name: "dmit美国"
     type: vless
-    server: us-wg.154370.xyz
-    port: 52212
-    uuid: 7c11333d-5859-488a-8011-530f8c16cba6
+    server: sys2.xchaim.com
+    port: 34602
+    uuid: 17acb054-8351-407c-a918-2be92b6416e4
     network: tcp
     udp: true
     tls: true
-    servername: icloud.com
+    servername: www.amazon.com
+    skip-cert-verify: true
     flow: xtls-rprx-vision
-    client-fingerprint: chrome
     reality-opts:
-      public-key: lZeek5W6aE61NOF0OU5P3Imr8l9GPRWsQX0QNZtNACo
-      short-id: f5
+      public-key: s9a3w1Htxz2dcp505cJ0PEUDSGXT7vEna42BCSUV5As
+      short-id: 89ca0df957
+    client-fingerprint: chrome
 
 proxy-groups:
   - name: 节点选择
