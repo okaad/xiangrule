@@ -13,11 +13,11 @@ profile:
   store-fake-ip: true
 
 proxies:
-  - name: "dmit美国"
+  - name: "DMIT-美国"
     type: vless
-    server: sys2.xchaim.com
-    port: 34602
-    uuid: 17acb054-8351-407c-a918-2be92b6416e4
+    server: sys1.tgqi.com
+    port: 37406
+    uuid: 8786bd20-2141-409c-ab89-7d564d30068d
     network: tcp
     udp: true
     tls: true
@@ -25,8 +25,8 @@ proxies:
     skip-cert-verify: true
     flow: xtls-rprx-vision
     reality-opts:
-      public-key: s9a3w1Htxz2dcp505cJ0PEUDSGXT7vEna42BCSUV5As
-      short-id: 89ca0df957
+      public-key: xGAvI6xOo1F_yvZ2QvtRxlE9SFBQC1Wo2QIdq9AcCwg
+      short-id: 5547f16ccf
     client-fingerprint: chrome
 
 proxy-groups:
