@@ -33,20 +33,20 @@ proxy-groups:
   - name: 节点选择
     type: select
     proxies:
-      - dmit美国
+      - DMIT-美国
       - DIRECT
 
   - name: Proxies
     type: select
     proxies:
-      - dmit美国
+      - DMIT-美国
       - 节点选择
       - DIRECT
 
   - name: Ai
     type: select
     proxies:
-      - dmit美国
+      - DMIT-美国
       - 节点选择
       - DIRECT
 
