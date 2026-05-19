@@ -1,0 +1,405 @@
+# mihomo 配置
+# 基于 iKeLee 示例配置改写
+# 改写目的：
+# 1. 去掉示例中的自带/占位节点订阅；
+# 2. 策略组同时识别 proxies 与 proxy-providers 后续加入的节点；
+# 3. 接入 okaad/xiangrule 的 loon/direct 与 loon/proxy 自定义规则。
+
+port: 7890
+socks-port: 7891
+mixed-port: 7892
+redir-port: 7893
+tproxy-port: 7894
+unified-delay: true
+geodata-mode: false
+geodata-loader: standard
+geo-auto-update: true
+geo-update-interval: 24
+tcp-concurrent: true
+find-process-mode: strict
+global-client-fingerprint: chrome
+allow-lan: true
+mode: rule
+log-level: info
+ipv6: true
+udp: true
+external-controller: 0.0.0.0:9090
+# external-ui: ui
+# external-ui-url: 'https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip'
+
+geox-url:
+  # geoip: 'https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/geoip.dat'
+  # geosite: 'https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/geosite.dat'
+  mmdb: 'https://geodata.kelee.one/Country-Masaiki.mmdb'
+  asn: 'https://geodata.kelee.one/GeoLite2-ASN-P3TERX.mmdb'
+
+profile:
+  store-selected: true
+  store-fake-ip: true
+
+sniffer:
+  enable: true
+  force-dns-mapping: true
+  parse-pure-ip: true
+  override-destination: true
+  sniff:
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: true
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443, 8443]
+  force-domain:
+    - +.v2ex.com
+  skip-domain:
+    - Mijia Cloud
+
+tun:
+  enable: true
+  stack: system
+  dns-hijack:
+    - any:53
+  auto-route: true
+  auto-detect-interface: true
+
+# P2P 下载端口
+listeners:
+  - name: socks5-in-1
+    type: socks
+    port: 10808
+    listen: 0.0.0.0
+    udp: true
+    users: []
+    proxy: DIRECT
+
+dns:
+  enable: true
+  prefer-h3: true
+  listen: 0.0.0.0:1053
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 28.0.0.1/8
+  fake-ip-filter:
+    - "*"
+    - +.lan
+  default-nameserver:
+    - 223.5.5.5
+    - 223.6.6.6
+  nameserver:
+    - https://223.5.5.5/dns-query
+    - https://223.6.6.6/dns-query
+
+# 去掉原示例中的“机场名称1/机场名称2”占位订阅。
+# 后续如果你的客户端、订阅转换器或覆写规则把节点写入 proxies/proxy-providers，下面策略组会自动识别。
+proxies: []
+proxy-providers: {}
+
+# 锚点 - 节点筛选规则
+FilterAll: &FilterAll '(?i).+'
+FilterHK: &FilterHK '(?i)(香港|港|HK|HKG|Hong\s?Kong)'
+FilterTW: &FilterTW '(?i)(台湾|台灣|台|TW|TWN|Taiwan)'
+FilterJP: &FilterJP '(?i)(日本|日|东京|東京|大阪|JP|JPN|Japan)'
+FilterKR: &FilterKR '(?i)(韩国|韓国|韓|首尔|首爾|KR|KOR|Korea)'
+FilterSG: &FilterSG '(?i)(新加坡|狮城|獅城|新国|新國|SG|SGP|Singapore)'
+FilterUS: &FilterUS '(?i)(美国|美國|美|洛杉矶|洛杉磯|圣何塞|聖荷西|西雅图|西雅圖|纽约|紐約|硅谷|US|USA|United\s?States|America)'
+FilterUK: &FilterUK '(?i)(英国|英國|英|伦敦|倫敦|UK|GB|GBR|United\s?Kingdom|Britain)'
+FilterFR: &FilterFR '(?i)(法国|法國|巴黎|FR|FRA|France)'
+FilterDE: &FilterDE '(?i)(德国|德國|法兰克福|法蘭克福|DE|DEU|Germany)'
+FilterEU: &FilterEU '(?i)(欧洲|歐洲|欧盟|歐盟|荷兰|荷蘭|阿姆斯特丹|德国|德國|法国|法國|英国|英國|意大利|義大利|西班牙|瑞士|瑞典|芬兰|芬蘭|波兰|波蘭|土耳其|EU|Europe|NL|Netherlands|DE|Germany|FR|France|UK|GB|Italy|Spain|Switzerland|Sweden|Finland|Poland|Turkey)'
+ExcludeFilter: &ExcludeFilter '(?i)(官网|流量|套餐|剩余|到期|过期|有效期|Expire|Traffic|Reset|GB|MB|倍率|订阅|客服|群组|频道|公告|更新|地址|网址|测试|Test|剩|用量|账单|说明|邀请|返利|循环|机场|下次|版本|官址|备用|联系|邮箱|工单|通知|教程|关注|作者|加入|失联)'
+
+# 锚点 - 策略组参数
+UrlTest: &UrlTest
+  type: url-test
+  interval: 300
+  tolerance: 20
+  lazy: true
+  url: 'http://www.google.com/blank.html'
+  disable-udp: false
+  timeout: 3000
+  max-failed-times: 3
+  include-all-proxies: true
+  include-all-providers: true
+  exclude-filter: *ExcludeFilter
+
+FallBack: &FallBack
+  type: fallback
+  interval: 300
+  lazy: true
+  url: 'http://www.google.com/blank.html'
+  disable-udp: false
+  timeout: 3000
+  max-failed-times: 3
+  include-all-proxies: true
+  include-all-providers: true
+  exclude-filter: *ExcludeFilter
+
+LoadBalance: &LoadBalance
+  type: load-balance
+  interval: 300
+  lazy: true
+  url: 'http://www.google.com/blank.html'
+  disable-udp: false
+  strategy: consistent-hashing
+  timeout: 3000
+  max-failed-times: 3
+  include-all-proxies: true
+  include-all-providers: true
+  exclude-filter: *ExcludeFilter
+
+RuleProvidersYaml: &RuleProvidersYaml
+  type: http
+  behavior: classical
+  interval: 3600
+  format: yaml
+  proxy: DIRECT
+
+RuleProvidersText: &RuleProvidersText
+  type: http
+  behavior: classical
+  interval: 3600
+  format: text
+  proxy: DIRECT
+
+# 策略组
+proxy-groups:
+  - name: 节点选择
+    type: select
+    proxies:
+      - 自动选择
+      - 故障转移
+      - 兜底后备策略
+      - 香港节点
+      - 台湾节点
+      - 日本节点
+      - 新加坡节点
+      - 美国节点
+      - 韩国节点
+      - 欧洲节点
+      - DIRECT
+    include-all-proxies: true
+    include-all-providers: true
+    filter: *FilterAll
+    exclude-filter: *ExcludeFilter
+
+  - name: 自动选择
+    <<: *UrlTest
+    filter: *FilterAll
+
+  - name: 故障转移
+    <<: *FallBack
+    filter: *FilterAll
+
+  - name: 兜底后备策略
+    <<: *FallBack
+    filter: *FilterAll
+
+  - name: 游戏选择
+    type: select
+    proxies:
+      - 节点选择
+      - 自动选择
+      - 故障转移
+      - DIRECT
+      - PASS
+    include-all-proxies: true
+    include-all-providers: true
+    filter: *FilterAll
+    exclude-filter: *ExcludeFilter
+
+  - name: AI
+    type: select
+    proxies:
+      - 节点选择
+      - 自动选择
+      - 故障转移
+      - 美国节点
+      - 日本节点
+      - 新加坡节点
+      - DIRECT
+    include-all-proxies: true
+    include-all-providers: true
+    filter: *FilterAll
+    exclude-filter: *ExcludeFilter
+
+  - name: TikTok
+    type: select
+    proxies:
+      - 节点选择
+      - 自动选择
+      - 故障转移
+      - 美国节点
+      - 日本节点
+      - 新加坡节点
+      - DIRECT
+    include-all-proxies: true
+    include-all-providers: true
+    filter: *FilterAll
+    exclude-filter: *ExcludeFilter
+
+  - name: Speedtest国际
+    type: select
+    proxies:
+      - 节点选择
+      - 自动选择
+      - 故障转移
+      - DIRECT
+      - PASS
+    include-all-proxies: true
+    include-all-providers: true
+    filter: *FilterAll
+    exclude-filter: *ExcludeFilter
+
+  - name: Netflix
+    type: select
+    proxies:
+      - 节点选择
+      - 自动选择
+      - 故障转移
+      - 香港节点
+      - 台湾节点
+      - 日本节点
+      - 新加坡节点
+      - 美国节点
+      - DIRECT
+    include-all-proxies: true
+    include-all-providers: true
+    filter: *FilterAll
+    exclude-filter: *ExcludeFilter
+
+  - name: 香港节点
+    type: select
+    proxies:
+      - DIRECT
+    include-all-proxies: true
+    include-all-providers: true
+    filter: *FilterHK
+    exclude-filter: *ExcludeFilter
+
+  - name: 台湾节点
+    type: select
+    proxies:
+      - DIRECT
+    include-all-proxies: true
+    include-all-providers: true
+    filter: *FilterTW
+    exclude-filter: *ExcludeFilter
+
+  - name: 日本节点
+    type: select
+    proxies:
+      - DIRECT
+    include-all-proxies: true
+    include-all-providers: true
+    filter: *FilterJP
+    exclude-filter: *ExcludeFilter
+
+  - name: 新加坡节点
+    type: select
+    proxies:
+      - DIRECT
+    include-all-proxies: true
+    include-all-providers: true
+    filter: *FilterSG
+    exclude-filter: *ExcludeFilter
+
+  - name: 美国节点
+    type: select
+    proxies:
+      - DIRECT
+    include-all-proxies: true
+    include-all-providers: true
+    filter: *FilterUS
+    exclude-filter: *ExcludeFilter
+
+  - name: 韩国节点
+    type: select
+    proxies:
+      - DIRECT
+    include-all-proxies: true
+    include-all-providers: true
+    filter: *FilterKR
+    exclude-filter: *ExcludeFilter
+
+  - name: 欧洲节点
+    type: select
+    proxies:
+      - DIRECT
+    include-all-proxies: true
+    include-all-providers: true
+    filter: *FilterEU
+    exclude-filter: *ExcludeFilter
+
+# 订阅规则
+rule-providers:
+  MyDirect:
+    <<: *RuleProvidersText
+    path: './rules/MyDirect.list'
+    url: 'https://raw.githubusercontent.com/okaad/xiangrule/main/loon/direct'
+
+  MyProxy:
+    <<: *RuleProvidersText
+    path: './rules/MyProxy.list'
+    url: 'https://raw.githubusercontent.com/okaad/xiangrule/main/loon/proxy'
+
+  LAN:
+    <<: *RuleProvidersYaml
+    path: './rules/Lan.yaml'
+    url: 'https://kelee.one/Tool/Clash/Rule/LAN_SPLITTER.yaml'
+
+  Direct:
+    <<: *RuleProvidersYaml
+    path: './rules/Direct.yaml'
+    url: 'https://kelee.one/Tool/Clash/Rule/Direct.yaml'
+
+  Proxy:
+    <<: *RuleProvidersYaml
+    path: './rules/Proxy.yaml'
+    url: 'https://kelee.one/Tool/Clash/Rule/Proxy.yaml'
+
+  AI:
+    <<: *RuleProvidersYaml
+    path: './rules/AI.yaml'
+    url: 'https://kelee.one/Tool/Clash/Rule/AI.yaml'
+
+  TikTok:
+    <<: *RuleProvidersYaml
+    path: './rules/TikTok.yaml'
+    url: 'https://kelee.one/Tool/Clash/Rule/TikTok.yaml'
+
+  SpeedtestIntl:
+    <<: *RuleProvidersYaml
+    path: './rules/SpeedtestInternational.yaml'
+    url: 'https://kelee.one/Tool/Clash/Rule/SpeedtestInternational.yaml'
+
+  Game:
+    <<: *RuleProvidersYaml
+    path: './rules/Game.yaml'
+    url: 'https://kelee.one/Tool/Clash/Rule/Game.yaml'
+
+  Netflix:
+    <<: *RuleProvidersYaml
+    path: './rules/Netflix.yaml'
+    url: 'https://rule.kelee.one/Clash/Netflix.yaml'
+
+  ESET_China:
+    <<: *RuleProvidersYaml
+    path: './rules/ESET_China.yaml'
+    url: 'https://kelee.one/Tool/Clash/Rule/ESET_China.yaml'
+
+# 规则指向
+rules:
+  - RULE-SET,LAN,DIRECT
+  - RULE-SET,MyDirect,DIRECT
+  - RULE-SET,Direct,DIRECT
+  - RULE-SET,MyProxy,节点选择
+  - RULE-SET,Proxy,节点选择
+  - RULE-SET,AI,AI
+  - RULE-SET,TikTok,TikTok
+  - RULE-SET,SpeedtestIntl,Speedtest国际
+  - RULE-SET,Game,游戏选择
+  - RULE-SET,Netflix,Netflix
+  - RULE-SET,ESET_China,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,节点选择
