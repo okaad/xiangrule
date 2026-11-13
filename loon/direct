@@ -39,7 +39,7 @@ DOMAIN-KEYWORD,mrstudio.vip
 #夏天
 DOMAIN-KEYWORD,dm.wodenas.xin
 #自建域名
-DOMAIN,738853.xyz
+DOMAIN-SUFFIX,738853.xyz,DIRECT
 # mp
 DOMAIN,movie-pilot.org
 
